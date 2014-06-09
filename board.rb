@@ -10,7 +10,7 @@ class Board
     @board = Array.new(9) { |row| Array.new(9){ |col| Tile.new(self, row, col)}}
     seed_bombs
     @blew_up = false
-  end #initialize
+  end 
 
   def seed_bombs
     10.times do
@@ -21,8 +21,8 @@ class Board
       end
 
       tile.bomb
-    end #do
-  end #seed_bombs
+    end 
+  end 
 
   def display
     @board.each do |row|
@@ -30,12 +30,12 @@ class Board
 
       row.each do |tile|
         display_row << tile.display
-      end #each
+      end 
 
       p display_row.join("   ")
       puts
-    end #each
-  end #display
+    end 
+  end 
 
   def display_actual
     @board.each do |row|
@@ -74,5 +74,5 @@ class Board
 
     unrevealed_tiles = all_tiles.select { |tile| !tile.revealed?}
     unrevealed_tiles.count == 10
-  end #won?
-end #Board
+  end 
+end 

@@ -8,7 +8,7 @@ class Tile
     @flagged = false
     @row = row
     @col = col
-  end #initialize
+  end 
 
   def display
     if flagged?

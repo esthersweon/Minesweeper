@@ -10,30 +10,31 @@ class Minesweeper
 
   def initialize
     @board = Board.new
-  end #initialize
+  end 
 
   def play
     while (!@board.lost? && !@board.won?)
       @board.display
 
-      puts "Enter 'r' for reveal or 'f' for flag (or 'save')"
+      puts "Enter 'r' to reveal and 'f' to flag a tile. Enter 's' if you want to save your game and return later."
       action = gets.chomp
 
-      save if action == 'save'
+      save if action == 's'
 
-      puts "Enter coordinates."
-      row, col = gets.chomp.split(" ")                     #array
-      row, col = row.to_i, col.to_i
+      puts "Enter row number (1-9)."
+      row = gets.chomp.to_i             
+      puts "Enter column number (1-9)."
+      col = gets.chomp.to_i
 
       if action == "f"
-        @board.flag(row, col)
+        @board.flag(row-1, col-1)
       elsif action == "r"
-        @board.reveal(row, col)
-      end #if
-    end #while
+        @board.reveal(row-1, col-1)
+      end 
+    end 
 
     finish
-  end #play
+  end 
 
   def save
     p "Enter a file name"
@@ -46,7 +47,7 @@ class Minesweeper
     @board.display_actual
     puts @board.won? ? "You won!" : "You lost!"
   end
-end #Minesweeper
+end 
 
 
 
