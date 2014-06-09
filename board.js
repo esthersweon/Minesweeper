@@ -1,15 +1,13 @@
 (function (root) {
 	var Minesweeper = root.Minesweeper = (root.Minesweeper || {});
 
-	//BOARD
-
 	var Board = Minesweeper.Board = function(dimension) {
 		this.dimension = dimension;
-		this.tiles = generateBoard(dimension);
+		this.board = generateBoard(dimension);
 		this.generateBoardDisplay();
 		this.blew_up = false;
 		this.seedBombs;
-	}
+	};
 
 	var Board.prototype.generateBoard = function(dimension) {
 		var rows = new Array (dimension);
@@ -20,17 +18,17 @@
 			}
 		}
 		return rows;
-	}
+	};
 
 	var Board.prototype.generateBoardDisplay = function() {
 		var container = document.getElementById('boardContainer');
 		for (i = 0; i < this.length; i++) {
-			//insert a div for row
+			//insert a div for row this[i].html('<div></div>')
 			for (j = 0; j < this.length; j++) {
-				//insert a div for each tile
+				//insert a div for each tile this[i][j].display
 			}
 		}
-	}
+	};
 
 	var Board.prototype.seedBombs = function() {
 		for (i = 0; i < this.dimension; i++) {
@@ -46,17 +44,32 @@
 
 			tile.bomb();
 		}	
-	}
+	};
 
-	//TILE
+	var Board.prototype.reveal = function(row, col) {
+		this[row][col].reveal;
+    	this.blew_up = this[row][col].bombed?
+	};
 
-	var Tile = Minesweeper.Tile = function(board, row, col) {
-		this.board = board;
-		this.row = row;
-		this.col = col;
-		this.bombed = false;
-		this.revealed = false;
-		this.flagged = false;
+	var Board.prototype.flag = function() {
+		this[row][col].flag;
+	};
+
+	var Board.prototype.won? = function() {
+		var all_tiles = [];
+
+		for (i = 0; i < this.length; i++) {
+			for (j = 0; j < this.length; j++) {
+				all_tiles.push(this[i][j]);
+			}
+		}
+
+		var unrevealed_tiles = all_tiles.filter(function(tile) {return !tile.revealed?})
+		unrevealed_tiles.count === 10
+	};
+
+	var Board.prototype.lost? = function() {
+		return this.blew_up
 	}
 
 })(this);
