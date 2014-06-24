@@ -130,9 +130,6 @@
 		  	}
 		  }
     	}
-		//   mouseover
-		// The element under the pointer is event.target(IE: srcElement).
-		// The element the mouse came from is event.relatedTarget(IE: fromElement)
   	};
 
 	var handleMouseDown = function(event){
@@ -216,9 +213,9 @@
 
 	var fixWhich = function(e) {
 	    if (!e.which && e.button) {
-	      if (e.button & 1) e.which = 1      // Left
-	      else if (e.button & 4) e.which = 2 // Middle
-	      else if (e.button & 2) e.which = 3 // Right
+	      if (e.button & 1) e.which = 1      // L
+	      else if (e.button & 4) e.which = 2 // C
+	      else if (e.button & 2) e.which = 3 // R
 	    }
 	};
 
