@@ -18,4 +18,5 @@
 //= require board
 //= require view
 //= require tile
+//= require index
 //= require_tree .
