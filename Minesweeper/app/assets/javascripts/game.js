@@ -2,16 +2,19 @@
 	var Minesweeper = root.Minesweeper = (root.Minesweeper || {});
 
 	var Game = Minesweeper.Game = function(){
-		this.board = new Minesweeper.Board(30, 30);
+		this.board = new Minesweeper.Board(30);
 		this.firstMove = true; 
 		this.leftMouseDown = false;
 		this.rightMouseDown = false;
-		document.getElementById('reset').addEventListener('mousedown', handleResetButtonPress);
-		document.getElementById('reset').addEventListener('mouseup', handleResetButtonReset);
-		document.getElementById('boardContainer').addEventListener('mousedown', handleMouseDown);
-		window.addEventListener('mouseup', handleMouseUp);
-		window.addEventListener('mouseover', handleMouseOver);
 		this.gameOver = false;
+
+		document.getElementById('boardContainer').addEventListener('mousedown', handleMouseDown);
+
+		document.getElementById('reset').addEventListener('mousedown', handleResetPress);
+		document.getElementById('reset').addEventListener('mouseup', handleReset);
+		
+		window.addEventListener('mouseup', handleMouseUp);
+		window.addEventListener('mouseover', handleMouseOver);	
 	};
 
 	Game.prototype.checkGameDone = function(){
@@ -20,12 +23,11 @@
 	};
 
 	Game.prototype.lost = function(){
-		// DOES VAR ROW and tile HAVE TO BE DECLARED OUT HERE?
 		for(var i = 0; i<this.board.tiles.length; i++){
 			row = this.board.tiles[i];
 			for(var j = 0; j < row.length; j++){
 				tile = row[j];
-				if(tile.revealed && tile.isBomb()){
+				if(tile.revealed && tile.bomb){
 					window.game.displayResults(false);
 					document.getElementById('reset').setAttribute('class', "loseFace");
 					return true;
@@ -37,7 +39,6 @@
 
 	Game.prototype.won = function(){
 		var hiddenTileCount = 0;
-		// DOES VAR ROW HAVE TO BE DECLARED OUT HERE?
 		for(var i = 0; i < this.board.tiles.length; i++){
 			var row = this.board.tiles[i];
 			for(var j = 0; j < row.length; j++){
@@ -57,31 +58,29 @@
 	};
 
 	Game.prototype.displayResults = function(win) {
-
-		//have to set up vars here?
 		for(var i = 0; i < this.board.tiles.length; i++){
 			var row = this.board.tiles[i];
 			for(var j = 0; j < row.length; j++){
 				var tile = row[j]
-				if(!tile.revealed && !tile.flagged && tile.isBomb()){
+				if(!tile.revealed && !tile.flagged && tile.bomb){
 					if(win){
 						tile.setMark('flagged');
 					} else {
 						tile.setMark('bomb');
 					}
 					
-				} else if(tile.flagged && !tile.isBomb()){
+				} else if(tile.flagged && !tile.bomb){
 					tile.setMark('incorrectFlag');
 				}
 			}
 		}
 	};
 
-	function handleResetButtonPress(event) {
+	function handleResetPress(event) {
 		event.target.setAttribute('class', 'pressedFace');
 	};
 
-	function handleResetButtonReset(event){
+	function handleReset(event){
 		event.target.setAttribute('class', 'normalFace');
 		window.game.gameOver = false;
 		window.game.rightMouseDown = false;
@@ -142,7 +141,7 @@
 
       } else if(window.game.rightMouseDown === true && window.game.leftMouseDown === false){
         if(!tile.revealed){
-          tile.setFlagged();
+          tile.setFlag();
         }
       } else if(window.game.leftMouseDown === true){
       	if(!tile.revealed && !tile.flagged){
@@ -169,7 +168,7 @@
       var position = [Math.round(event.target.id.split(',')[0]), Math.round(event.target.id.split(',')[1])]
       var tile = window.game.board.getTile([position[0], position[1]])
       if(window.game.firstMove){
-	      while(window.game.board.tiles[position[0]][position[1]].isBomb()){
+	      while(window.game.board.tiles[position[0]][position[1]].bomb){
 	      	window.game.board.reset();
 	      }	
 	      window.game.firstMove = false;
@@ -185,7 +184,7 @@
       					window.game.leftMouseDown === true)) &&
       					tile.revealed){
         if(window.game.board.neighborBombCount(position) === window.game.board.neighborFlagCount(position)){
-	        window.game.board.revealNeighbors(position);
+	        window.game.board.revealNeighboringTiles(position);
 	        window.game.checkGameDone()
 	      }
 	    } else if(event.which === 1 && window.game.rightMouseDown === true && !tile.revealed){

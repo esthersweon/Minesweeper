@@ -14,29 +14,31 @@ body{
 #reset{
   background-image: url('images.gif');
   margin: 0 auto;
-  height: 26px;
+  height: 23px;
   width: 26px;
 }
 
-.winFace{
-  background-position: -104px -55px;
-}
-
-.loseFace{
-  background-position: -78px -55px;
-}
-
-.dangerFace{
-  background-position: -52px -55px;
-}
-
 .normalFace{
-  background-position: 0px -55px;
+  background-position: 0px -32px;
 }
 
 .pressedFace{
-  background-position: -26px -55px;
+  background-position: -26px -32px;
 }
+
+.dangerFace{
+  background-position: -52px -32px;
+}
+
+.loseFace{
+  background-position: -78px -32px;
+}
+
+.winFace{
+  background-position: -104px -32px;
+}
+
+
 
 .tile{
   background-image: url('images.gif');
@@ -45,63 +47,58 @@ body{
   width: 16px;
 }
 
-.rowEnd{
-  display: block;
-  margin: 0px;
-}
-
-.flagged{
-  background-position: -16px -39px;
-}
-
-.bomb{
-  background-position: -64px -39px;
-}
-
-.incorrectFlag{
-  background-position: -48px -39px;
-}
-
-.activatedBomb{
-  background-position: -32px -39px;
-}
-
-.concealed{
-  background-position: 0px -39px;
-}
-
 .revealed-0{
-  background-position: 0px -23px;
+  background-position: 0px 0px;
 }
 
 .revealed-1{
-  background-position: -16px -23px;
+  background-position: -16px 0px;
 }
 
 .revealed-2{
-  background-position: -32px -23px;
+  background-position: -32px 0px;
 }
 
 .revealed-3{
-  background-position: -48px -23px;
+  background-position: -48px 0px;
 }
 
 .revealed-4{
-  background-position: -64px -23px;
+  background-position: -64px 0px;
 }
 
 .revealed-5{
-  background-position: -80px -23px;
+  background-position: -80px 0px;
 }
 
 .revealed-6{
-  background-position: -96px -23px;
+  background-position: -96px 0px;
 }
 
 .revealed-7{
-  background-position: -112px -23px;
+  background-position: -112px 0px;
 }
 
 .revealed-8{
-  background-position: -128px -23px;
+  background-position: -128px 0px;
+}
+
+.concealed{
+  background-position: 0px -16px;
+}
+
+.flagged{
+  background-position: -16px -16px;
+}
+
+.triggeredBomb{
+  background-position: -32px -16px;
+}
+
+.incorrectFlag{
+  background-position: -48px -16px;
+}
+
+.bomb{
+  background-position: -64px -16px;
 }

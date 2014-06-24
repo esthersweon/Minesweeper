@@ -16,7 +16,6 @@
 //= require jquery-1.9.1
 //= require underscore
 //= require board
-//= require view
+//= require game
 //= require tile
-//= require index
 //= require_tree .

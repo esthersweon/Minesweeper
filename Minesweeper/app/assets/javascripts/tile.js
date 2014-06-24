@@ -14,7 +14,7 @@
 		this.bomb = !this.bomb;
 	};
 
-	Tile.prototype.setFlagged = function(){
+	Tile.prototype.setFlag = function(){
 		this.flagged = !this.flagged;
 		if(this.flagged){
 			this.setMark('flagged');
@@ -23,15 +23,7 @@
 		}
 	};
 
-	Tile.prototype.setRevealed = function(){
-		this.revealed = true;
-	};
-
 	Tile.prototype.setMark = function(classType){
 		this.mark.setAttribute('class', "tile " + classType);
 	};
-
-	Tile.prototype.isBomb = function(){
-		return this.bomb;
-	}
 })(this);
