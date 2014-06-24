@@ -1,6 +1,11 @@
 
 body{
   width: 100%;
+  background-color: lightblue;
+}
+
+h1, h2{
+  text-align: center;
 }
 
 #container{
@@ -38,9 +43,10 @@ body{
   text-align: center;
   margin-left: auto;
   margin-right: auto;
+  font-size: 20px;
 }
 
-.normalFace{
+.happyFace{
   background-position: 0px -32px;
 }
 
@@ -48,7 +54,7 @@ body{
   background-position: -26px -32px;
 }
 
-.dangerFace{
+.anticipationFace{
   background-position: -52px -32px;
 }
 
@@ -117,7 +123,7 @@ body{
   background-position: -32px -16px;
 }
 
-.incorrectFlag{
+.wrongFlag{
   background-position: -48px -16px;
 }
 

@@ -33,7 +33,7 @@
 		return count;
 	}; 
 
-	Game.prototype.checkGameDone = function(){
+	Game.prototype.checkGameOver = function(){
 		this.gameOver = this.lost() || this.won();
 		return this.gameOver;
 	};
@@ -70,7 +70,6 @@
 			return true;
 		}
 		return false;
-
 	};
 
 	Game.prototype.displayResults = function(win) {
@@ -80,147 +79,147 @@
 				var tile = row[j]
 				if(!tile.revealed && !tile.flagged && tile.bomb){
 					if(win){
-						tile.setMark('flagged');
+						tile.setClass('flagged');
 					} else {
-						tile.setMark('bomb');
+						tile.setClass('bomb');
 					}
 					
 				} else if(tile.flagged && !tile.bomb){
-					tile.setMark('incorrectFlag');
+					tile.setClass('wrongFlag');
 				}
 			}
 		}
 	};
 
-	function handleResetPress(event) {
+	var handleResetPress = function(event) {
 		event.target.setAttribute('class', 'pressedFace');
 	};
 
-	function handleReset(event){
-		event.target.setAttribute('class', 'normalFace');
+	var handleReset = function(event){
+		event.target.setAttribute('class', 'happyFace');
 		window.game.gameOver = false;
 		window.game.rightMouseDown = false;
 		window.game.firstMove = true;
 		window.game.board.reset();
 	};
 
-	///////HERE
-  function handleMouseOver(event){
-    if(event.target.className.slice(0, 4) === 'tile'){
-      var toTile = window.game.board.getTile([event.target.id.split(',')[0], event.target.id.split(',')[1]]);
-    }
+	///////REFACTOR FROM HERE
+  	var handleMouseOver = function(event){
+	    if(event.target.className.slice(0, 4) === 'tile'){
+	      var toTile = window.game.board.getTile([event.target.id.split(',')[0], event.target.id.split(',')[1]]);
+	    }
 
-    if(event.relatedTarget && event.relatedTarget.className.slice(0, 4) === 'tile'){
-	      var fromTile = window.game.board.getTile([event.relatedTarget.id.split(',')[0], event.relatedTarget.id.split(',')[1]])  
+	    if(event.relatedTarget && event.relatedTarget.className.slice(0, 4) === 'tile'){
+		      var fromTile = window.game.board.getTile([event.relatedTarget.id.split(',')[0], event.relatedTarget.id.split(',')[1]])  
+			}
+
+	    if(window.game.rightMouseDown && window.game.leftMouseDown){
+	    	if(event.relatedTarget){
+			    if(fromTile && !fromTile.revealed && !fromTile.flagged){
+			  		fromTile.setClass('concealed');
+			  	}
+		  	}
+	    } else if(window.game.leftMouseDown){
+	    	if(toTile && !toTile.revealed && !toTile.flagged){
+		      toTile.setClass('revealed-0');
+		  	}
+
+	  	if(event.relatedTarget){
+		    if(fromTile && !fromTile.revealed && !fromTile.flagged){
+		  		fromTile.setClass('concealed');
+		  	}
+		  }
+    	}
+		//   mouseover
+		// The element under the pointer is event.target(IE: srcElement).
+		// The element the mouse came from is event.relatedTarget(IE: fromElement)
+  	};
+
+	var handleMouseDown = function(event){
+		event.preventDefault();
+		if(window.game.gameOver === true){
+			return false;
+		}
+		fixWhich(event);
+		if(event.which === 1){
+			document.getElementById('reset').setAttribute('class', "anticipationFace");
+		  window.game.leftMouseDown = true;
+		} else if(event.which === 3) {
+		  window.game.rightMouseDown = true;
 		}
 
-    if(window.game.rightMouseDown && window.game.leftMouseDown){
-    	if(event.relatedTarget){
-		    if(fromTile && !fromTile.revealed && !fromTile.flagged){
-		  		fromTile.setMark('concealed');
+		if(event.target.className.slice(0, 4) === 'tile'){    
+		  var tile = window.game.board.getTile([event.target.id.split(',')[0], event.target.id.split(',')[1]]);
+		  if(window.game.rightMouseDown === true && window.game.leftMouseDown === true){
+
+		  } else if(window.game.rightMouseDown === true && window.game.leftMouseDown === false){
+		    if(!tile.revealed){
+		      tile.setFlag();
+		    }
+		  } else if(window.game.leftMouseDown === true){
+		  	if(!tile.revealed && !tile.flagged){
+		  		tile.setClass('revealed-0');
 		  	}
-	  	}
-    } else if(window.game.leftMouseDown){
-    	if(toTile && !toTile.revealed && !toTile.flagged){
-	      toTile.setMark('revealed-0');
-	  	}
+		  }
+		}
+	};
 
-  	if(event.relatedTarget){
-	    if(fromTile && !fromTile.revealed && !fromTile.flagged){
-	  		fromTile.setMark('concealed');
-	  	}
-	  }
-	  	
-    }
-//   mouseover
-// The element under the pointer is event.target(IE: srcElement).
-// The element the mouse came from is event.relatedTarget(IE: fromElement)
-  }
+	var handleMouseUp = function(event){
+	    event.preventDefault();
+	    if(window.game.gameOver === true){
+	    	return false;
+	    }
+	    fixWhich(event);
+	    if(event.which === 1){
+	  		document.getElementById('reset').setAttribute('class', "happyFace");
+	      window.game.leftMouseDown = false;
+	    } else if(event.which === 3) {
+	      window.game.rightMouseDown = false;
+	    }
 
-  function handleMouseDown(event){
-    event.preventDefault();
-    if(window.game.gameOver === true){
-    	return false;
-    }
-    fixWhich(event);
-    if(event.which === 1){
-    	document.getElementById('reset').setAttribute('class', "dangerFace");
-      window.game.leftMouseDown = true;
-    } else if(event.which === 3) {
-      window.game.rightMouseDown = true;
-    }
-
-    if(event.target.className.slice(0, 4) === 'tile'){    
-      var tile = window.game.board.getTile([event.target.id.split(',')[0], event.target.id.split(',')[1]]);
-      if(window.game.rightMouseDown === true && window.game.leftMouseDown === true){
-
-      } else if(window.game.rightMouseDown === true && window.game.leftMouseDown === false){
-        if(!tile.revealed){
-          tile.setFlag();
-        }
-      } else if(window.game.leftMouseDown === true){
-      	if(!tile.revealed && !tile.flagged){
-      		tile.setMark('revealed-0');
-      	}
-      }
-    }
-  }
-
-  function handleMouseUp(event){
-    event.preventDefault();
-    if(window.game.gameOver === true){
-    	return false;
-    }
-    fixWhich(event);
-    if(event.which === 1){
-  		document.getElementById('reset').setAttribute('class', "normalFace");
-      window.game.leftMouseDown = false;
-    } else if(event.which === 3) {
-      window.game.rightMouseDown = false;
-    }
-
-    if(event.target.className.slice(0, 4) === 'tile'){
-      var position = [Math.round(event.target.id.split(',')[0]), Math.round(event.target.id.split(',')[1])]
-      var tile = window.game.board.getTile([position[0], position[1]])
-      if(window.game.firstMove){
-	      while(window.game.board.tiles[position[0]][position[1]].bomb){
-	      	window.game.board.reset();
-	      }	
-	      window.game.firstMove = false;
-      }
-      
-      window.game.firstMove = false;
-      if(event.which === 1 && window.game.rightMouseDown === false && !tile.revealed && !tile.flagged){
-        window.game.board.revealTile([position[0], position[1]]);
-		window.game.checkGameDone()
-      } else if(((event.which === 1 &&
-      					window.game.rightMouseDown === true) ||
-      					(event.which === 3 &&
-      					window.game.leftMouseDown === true)) &&
-      					tile.revealed){
-        if(window.game.board.neighborBombCount(position) === window.game.board.neighborFlagCount(position)){
-	        window.game.board.revealNeighboringTiles(position);
-	        window.game.checkGameDone()
+	    if(event.target.className.slice(0, 4) === 'tile'){
+	      var position = [Math.round(event.target.id.split(',')[0]), Math.round(event.target.id.split(',')[1])]
+	      var tile = window.game.board.getTile([position[0], position[1]])
+	      if(window.game.firstMove){
+		      while(window.game.board.tiles[position[0]][position[1]].bomb){
+		      	window.game.board.reset();
+		      }	
+		      window.game.firstMove = false;
 	      }
-	    } else if(event.which === 1 && window.game.rightMouseDown === true && !tile.revealed){
-	     		tile.setMark('concealed');
-      } 
-    
-    }
-    document.getElementById('bombCount').innerHTML = '';
-    if(!this.game.gameOver){
-    	document.getElementById('bombCount').innerHTML = 'BOMBS LEFT: ' + (this.game.board.bombCount - this.game.flagCount());
-	}
-    return false;
-  }
+	      
+	      window.game.firstMove = false;
+	      if(event.which === 1 && window.game.rightMouseDown === false && !tile.revealed && !tile.flagged){
+	        window.game.board.revealTile([position[0], position[1]]);
+			window.game.checkGameOver()
+	      } else if(((event.which === 1 &&
+	      					window.game.rightMouseDown === true) ||
+	      					(event.which === 3 &&
+	      					window.game.leftMouseDown === true)) &&
+	      					tile.revealed){
+	        if(window.game.board.neighborBombCount(position) === window.game.board.neighborFlagCount(position)){
+		        window.game.board.revealNeighboringTiles(position);
+		        window.game.checkGameOver()
+		      }
+		    } else if(event.which === 1 && window.game.rightMouseDown === true && !tile.revealed){
+		     		tile.setClass('concealed');
+	      } 
+	    
+	    }
+	    document.getElementById('bombCount').innerHTML = '';
+	    if(!this.game.gameOver){
+	    	document.getElementById('bombCount').innerHTML = 'BOMBS LEFT: ' + (this.game.board.bombCount - this.game.flagCount());
+		} else {
+			document.getElementById('bombCount').innerHTML = 'GAME OVER'
+		}
+	    return false;
+	};
 
-  function fixWhich(e) {
-    if (!e.which && e.button) {
-      if (e.button & 1) e.which = 1      // Left
-      else if (e.button & 4) e.which = 2 // Middle
-      else if (e.button & 2) e.which = 3 // Right
-    }
-  }
+	var fixWhich = function(e) {
+	    if (!e.which && e.button) {
+	      if (e.button & 1) e.which = 1      // Left
+	      else if (e.button & 4) e.which = 2 // Middle
+	      else if (e.button & 2) e.which = 3 // Right
+	    }
+	};
 
 })(this);
-

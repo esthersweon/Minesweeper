@@ -3,13 +3,12 @@
 
 	var Board = Minesweeper.Board = function(dimension){
 		this.dimension = dimension;
-		this.tiles = generateBoard(dimension);
+		this.tiles = this.generateBoard(dimension);
 		this.boardDisplay();
 		this.bombCount = this.generateBombs();
-		// this.bombedTiles = this.findBombedTiles();
 	}; 
 
-	function generateBoard(dimension){
+	Board.prototype.generateBoard = function(dimension){
 		var outerArray = new Array(dimension);
 		for (var i = 0; i < outerArray.length; i++){
 			outerArray[i] = new Array(dimension);
@@ -28,7 +27,7 @@
 		for (var i = 0; i < this.tiles.length; i++){
 			var row = this.tiles[i];
 			for(var j = 0; j < row.length; j++){
-				container.appendChild(row[j].mark);
+				container.appendChild(row[j].classLabel);
 			}
 		}
 	};
@@ -58,24 +57,8 @@
 	Board.prototype.setBombs = function(bombPositions){
 		for (var i = 0; i < bombPositions.length; i++){
 			var bombedTile = this.tiles[bombPositions[i][0]][bombPositions[i][1]].setBomb();
-			// this.bombs.push(this.tiles[bombPositions[i][0]][bombPositions[i][1]]);
 		}
-		// return bombs;
 	};
-
-	// Board.prototype.findBombedTiles = function() {
-	// 	bombedTiles = [];
-	// 	for (var i = 0; i < this.tiles.length; i++){
-	// 		var row = this.tiles[i];
-	// 		for (var j = 0; j < row.length; j++){
-	// 			var tile = row[j];
-	// 			if(tile.bomb){
-	// 				bombedTiles.push(tile);
-	// 			}
-	// 		}
-	// 	}
-	// 	return bombedTiles;
-	// };
 
 	Board.prototype.reset = function(){
 		for (var i = 0; i < this.tiles.length; i++){
@@ -84,7 +67,7 @@
 				row[j].revealed = false;
 				row[j].bomb = false;
 				row[j].flagged = false;
-				row[j].setMark('concealed');
+				row[j].setClass('concealed');
 			}
 		}
 		this.bombCount = this.generateBombs();
@@ -157,10 +140,10 @@
 		if(!tile.flagged && !tile.revealed){
 			tile.revealed = true;
 			if(tile.bomb){
-				tile.setMark('triggeredBomb')
+				tile.setClass('triggeredBomb')
 			} else {
 				var count = this.neighborBombCount(pos);
-				tile.setMark('revealed-' + count.toString());
+				tile.setClass('revealed-' + count.toString());
 				if(count ===0){
 					var neighbors = this.neighbors(pos);
 					for(var i = 0; i < neighbors.length; i++){
@@ -172,6 +155,6 @@
 	};
 
 	Board.prototype.getTile = function(pos){
-		return this.tiles[Math.round(pos[0])][Math.round(pos[1])];
+		return this.tiles[pos[0]][pos[1]];
 	};
 })(this);

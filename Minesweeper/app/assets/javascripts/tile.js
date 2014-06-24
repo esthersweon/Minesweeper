@@ -4,12 +4,14 @@
 	var Tile = Minesweeper.Tile = function(row, col){
 		this.row = row;
 		this.col = col;
+
 		this.bomb = false;
 		this.flagged = false;
 		this.revealed = false;
-		this.mark = document.createElement('div');
-		this.mark.setAttribute('id', row.toString() + "," + col.toString());
-		this.mark.setAttribute('class', 'tile concealed');
+		
+		this.classLabel = document.createElement('div');
+		this.classLabel.setAttribute('id', row.toString() + "," + col.toString());
+		this.classLabel.setAttribute('class', 'tile concealed');
 	};
 
 	Tile.prototype.setBomb = function(){
@@ -19,14 +21,14 @@
 	Tile.prototype.setFlag = function(){
 		this.flagged = !this.flagged;
 		if(this.flagged){
-			this.setMark('flagged');
+			this.setClass('flagged');
 		} else {
-			this.setMark('concealed');
+			this.setClass('concealed');
 		}
 	};
 
-	Tile.prototype.setMark = function(classType){
-		this.mark.setAttribute('class', "tile " + classType);
+	Tile.prototype.setClass = function(classType){
+		this.classLabel.setAttribute('class', "tile " + classType);
 	};
 })(this);
 
