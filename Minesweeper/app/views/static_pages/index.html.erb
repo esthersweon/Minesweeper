@@ -4,11 +4,8 @@
 		<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 		<title>Minesweeper</title>
 
-		<link rel="stylesheet" href="minesweeper.css" type="text/css">
-		<script type="text/javascript" src="tile.js"></script>
-		<script type="text/javascript" src="board.js"></script>
-		<script type="text/javascript" src="minesweeper.js"></script>
-
+		<%= stylesheet_link_tag "application", media: "all", "data-turbolinks-track" => true %>
+		<%= javascript_include_tag "application", "data-turbolinks-track" => true %>
 	</head>
 
 	<body>
@@ -19,9 +16,12 @@
 			</div>
 
 			<div id="boardContainer">
-			</div>
+			</div>	
 
 		</div>
+
+		<div id="bombCount">
+			</div>
 
 		<script>
 			var game = new Minesweeper.Game();

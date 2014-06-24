@@ -2,11 +2,13 @@
 	var Minesweeper = root.Minesweeper = (root.Minesweeper || {});
 
 	var Game = Minesweeper.Game = function(){
-		this.board = new Minesweeper.Board(30);
+		this.board = new Minesweeper.Board(15);
 		this.firstMove = true; 
 		this.leftMouseDown = false;
 		this.rightMouseDown = false;
 		this.gameOver = false;
+
+		document.getElementById('bombCount').innerHTML = 'BOMBS LEFT: ' + (this.board.bombCount);
 
 		document.getElementById('boardContainer').addEventListener('mousedown', handleMouseDown);
 
@@ -14,8 +16,22 @@
 		document.getElementById('reset').addEventListener('mouseup', handleReset);
 		
 		window.addEventListener('mouseup', handleMouseUp);
-		window.addEventListener('mouseover', handleMouseOver);	
+		window.addEventListener('mouseover', handleMouseOver);
 	};
+
+	Game.prototype.flagCount = function(){
+		var count = 0;
+		for(var i = 0; i<this.board.tiles.length; i++){
+			row = this.board.tiles[i];
+			for(var j = 0; j < row.length; j++){
+				tile = row[j];
+				if(tile.flagged){
+					count+=1;
+				}
+			}
+		}
+		return count;
+	}; 
 
 	Game.prototype.checkGameDone = function(){
 		this.gameOver = this.lost() || this.won();
@@ -116,7 +132,6 @@
 	  }
 	  	
     }
-    
 //   mouseover
 // The element under the pointer is event.target(IE: srcElement).
 // The element the mouse came from is event.relatedTarget(IE: fromElement)
@@ -177,7 +192,7 @@
       window.game.firstMove = false;
       if(event.which === 1 && window.game.rightMouseDown === false && !tile.revealed && !tile.flagged){
         window.game.board.revealTile([position[0], position[1]]);
-				window.game.checkGameDone()
+		window.game.checkGameDone()
       } else if(((event.which === 1 &&
       					window.game.rightMouseDown === true) ||
       					(event.which === 3 &&
@@ -192,7 +207,10 @@
       } 
     
     }
-
+    document.getElementById('bombCount').innerHTML = '';
+    if(!this.game.gameOver){
+    	document.getElementById('bombCount').innerHTML = 'BOMBS LEFT: ' + (this.game.board.bombCount - this.game.flagCount());
+	}
     return false;
   }
 

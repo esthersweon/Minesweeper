@@ -2,6 +2,8 @@
 	var Minesweeper = root.Minesweeper = (root.Minesweeper || {});
 
 	var Tile = Minesweeper.Tile = function(row, col){
+		this.row = row;
+		this.col = col;
 		this.bomb = false;
 		this.flagged = false;
 		this.revealed = false;
@@ -27,3 +29,4 @@
 		this.mark.setAttribute('class', "tile " + classType);
 	};
 })(this);
+

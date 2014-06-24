@@ -6,6 +6,7 @@
 		this.tiles = generateBoard(dimension);
 		this.boardDisplay();
 		this.bombCount = this.generateBombs();
+		// this.bombedTiles = this.findBombedTiles();
 	}; 
 
 	function generateBoard(dimension){
@@ -33,7 +34,7 @@
 	};
 
 	Board.prototype.generateBombs = function(){
-		var totalBombs = Math.round(this.dimension * this.dimension * 0.15);
+		var totalBombs = Math.round(this.dimension * this.dimension * 0.2);
 		var bombPositions = [];
 		while(bombPositions.length < totalBombs){
 			var loc = [(Math.floor(Math.random() * this.dimension)), (Math.floor(Math.random() * this.dimension))]
@@ -56,9 +57,25 @@
 
 	Board.prototype.setBombs = function(bombPositions){
 		for (var i = 0; i < bombPositions.length; i++){
-			this.tiles[bombPositions[i][0]][bombPositions[i][1]].setBomb();
+			var bombedTile = this.tiles[bombPositions[i][0]][bombPositions[i][1]].setBomb();
+			// this.bombs.push(this.tiles[bombPositions[i][0]][bombPositions[i][1]]);
 		}
+		// return bombs;
 	};
+
+	// Board.prototype.findBombedTiles = function() {
+	// 	bombedTiles = [];
+	// 	for (var i = 0; i < this.tiles.length; i++){
+	// 		var row = this.tiles[i];
+	// 		for (var j = 0; j < row.length; j++){
+	// 			var tile = row[j];
+	// 			if(tile.bomb){
+	// 				bombedTiles.push(tile);
+	// 			}
+	// 		}
+	// 	}
+	// 	return bombedTiles;
+	// };
 
 	Board.prototype.reset = function(){
 		for (var i = 0; i < this.tiles.length; i++){
@@ -126,13 +143,6 @@
 			}
 		}
 		return count;
-	};
-
-	Board.prototype.setFlag = function(pos){
-		var tile = this.tiles[pos[0]][pos[1]];
-		if(!tile.revealed){
-			tile.setFlag();
-		}
 	};
 
 	Board.prototype.revealNeighboringTiles = function(pos){

@@ -8,21 +8,12 @@ body{
   background-color: lightgray;
   padding-top: 10px;
   padding-bottom: 30px;
-  width: 600px;
-    margin-left: auto;
+  width: 400px;
+  margin-left: auto;
   margin-right: auto;
   border-color: black;
   border: 1px solid;
   border-radius: 10px;
-
-}
-
-#boardContainer{
-  width: 480px;
-  margin-top: 10px;
-  margin-left: auto;
-  margin-right: auto;
-  overflow: auto;
 }
 
 #reset{
@@ -31,6 +22,22 @@ body{
   background-image: url('images.gif');
   height: 23px;
   width: 26px;
+}
+
+#boardContainer{
+  width: 240px;
+  margin-top: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  overflow: auto;
+}
+
+#bombCount{
+  margin-top: 30px;
+  width: 240px;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .normalFace{
