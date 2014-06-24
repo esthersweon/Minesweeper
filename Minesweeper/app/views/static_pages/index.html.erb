@@ -5,17 +5,23 @@
 		<title>Minesweeper</title>
 
 		<link rel="stylesheet" href="minesweeper.css" type="text/css">
-		<script type="text/javascript" src ="tile.js"></script>
-		<script type="text/javascript" src ="board.js"></script>
-		<script type="text/javascript" src ="minesweeper.js"></script>
+		<script type="text/javascript" src="tile.js"></script>
+		<script type="text/javascript" src="board.js"></script>
+		<script type="text/javascript" src="minesweeper.js"></script>
 
 	</head>
 
 	<body>
-		<div id="reset" class="normalFace">
-		</div>
 
-		<div id="boardContainer"></div>
+		<div id="container">
+
+			<div id="reset" class="normalFace">
+			</div>
+
+			<div id="boardContainer">
+			</div>
+
+		</div>
 
 		<script>
 			var game = new Minesweeper.Game();
